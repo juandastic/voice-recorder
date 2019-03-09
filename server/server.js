@@ -5,6 +5,9 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const Voice = require('./voice.model');
 const PORT = 4000;
+const multer  = require('multer');
+
+const upload = multer({ dest: 'uploads/' })
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -29,11 +32,17 @@ voiceRoutes.route('/').get(function(req, res) {
     });
 });
 
-voiceRoutes.route('/add').post(function(req, res) {
-    let voice = new Voice(req.body);
+voiceRoutes.route('/add').post(upload.single('voice_file'),function(req, res) {
+    let voiceObject = {
+        voice_title: req.body.voice_title,
+        voice_description: req.body.voice_description,
+        voice_audio: req.file.path
+    };
+    let voice = new Voice(voiceObject);
+
     voice.save()
-        .then(todo => {
-            res.status(200).json({'voice': 'voice added successfully'});
+        .then(voice => {
+            res.status(200).json(voice);
         })
         .catch(err => {
             res.status(400).send('adding new voice failed');
@@ -41,6 +50,7 @@ voiceRoutes.route('/add').post(function(req, res) {
 });
 
 app.use(express.static('build'));
+app.use('/uploads', express.static('uploads'));
 
 app.listen(PORT, function() {
     console.log("Server is running on Port: " + PORT);

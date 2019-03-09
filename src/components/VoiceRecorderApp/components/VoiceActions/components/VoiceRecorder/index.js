@@ -37,7 +37,7 @@ export default class VoiceRecorder extends Component {
             });
 
             this.mediaRecorder.addEventListener('stop', () => {
-                const audioBlob = new Blob(this.state.recordedChunks);
+                const audioBlob = new Blob(this.state.recordedChunks, {type: 'audio/mpeg-3'});
                 this.processRecord(audioBlob);
             });
 
