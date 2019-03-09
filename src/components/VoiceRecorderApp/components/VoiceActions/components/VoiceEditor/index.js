@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom';
 
-export default class VoiceEditor extends Component {
+class VoiceEditor extends Component {
     constructor(props) {
         super(props);
     }
@@ -13,3 +14,5 @@ export default class VoiceEditor extends Component {
         )
     }
 }
+
+export default withRouter(VoiceEditor);

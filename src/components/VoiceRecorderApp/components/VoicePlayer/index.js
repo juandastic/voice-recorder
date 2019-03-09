@@ -13,7 +13,8 @@ export default class VoicePlayer extends Component {
         this.simplePlay = this.simplePlay.bind(this);
 
         this.state = {
-            isPlaying: false
+            isPlaying: false,
+            audioError: false
         }
     }
 
@@ -26,6 +27,11 @@ export default class VoicePlayer extends Component {
             this.wavesurfer.load(this.props.audioUrl);
         } else {
             this.audio = new Audio(this.props.audioUrl);
+            this.audio.onerror = (error) => {
+                this.setState({
+                    audioError: true
+                });
+            }
         }
     }
 
@@ -67,7 +73,7 @@ export default class VoicePlayer extends Component {
             this.audio.pause();
             this.setState({
                 isPlaying: !this.audio.paused
-            })
+            });
         };
 
         this.audio.paused ? this.audio.play() : this.audio.pause();
@@ -101,6 +107,10 @@ export default class VoicePlayer extends Component {
         )
     }
     render() {
+        if (this.state.audioError) {
+            return (<span> (Sin Audio) </span>);
+        }
+
         return this.props.visualPlayer ? this.renderVisualPlayer() : this.renderSimplePlayer();
     }
 }

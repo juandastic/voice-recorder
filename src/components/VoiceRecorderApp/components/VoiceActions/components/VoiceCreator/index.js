@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router'
+import { withRouter } from 'react-router-dom';
 import Axios from 'axios';
 
 import VoiceForm from '../VoiceForm';
 
-export default class VoiceCreator extends Component {
+class VoiceCreator extends Component {
     constructor(props) {
         super(props);
 
@@ -30,6 +31,7 @@ export default class VoiceCreator extends Component {
             }
         })
         .then(res => {
+            this.props.updateVoiceList(res.data);
             this.setState({
                 goToRercorder: {
                     active: true
@@ -57,3 +59,5 @@ export default class VoiceCreator extends Component {
         )
     }
 }
+
+export default withRouter(VoiceCreator);
