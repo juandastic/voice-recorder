@@ -36,10 +36,13 @@ export default class VoiceForm extends Component {
 
     onSubmit(e) {
         e.preventDefault();
+        const audioObject = {
+            voice_title: this.state.voice_title,
+            voice_description: this.state.voice_description,
+            audioUrl: this.props.audioUrl
+        }
 
-        console.log(`Form submitted:`);
-        console.log(`Voice Title: ${this.state.voice_title}`);
-        console.log(`Voice Description: ${this.state.voice_description}`);
+        this.props.onSaveAudio(audioObject);
     }
 
     onCancel() {
@@ -76,7 +79,7 @@ export default class VoiceForm extends Component {
                     </textarea>
                 </div>
                 <div className="form-group">
-                    <input type="submit" value="Crear Audio" className="btn btn-primary" />
+                    <input type="submit" value="Guardar Audio" className="btn btn-primary" />
                     <button type="button" className="btn btn-outline-danger float-right" onClick={this.onCancel}>
                         Cancelar
                     </button>

@@ -103,7 +103,6 @@ export default class VoiceRecorder extends Component {
             }} />
         }
 
-
         if (isRecordingAllowed) {
             if (!isRecording) {
                 button = (
