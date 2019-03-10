@@ -7,7 +7,7 @@ const multer  = require('multer');
 const fs =  require('fs');
 const path = require('path');
 const Voice = require('./voice.model');
-const PORT = 4000;
+const PORT = 3000;
 
 const upload = multer({ dest: 'uploads/' })
 
