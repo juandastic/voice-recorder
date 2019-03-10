@@ -3,9 +3,11 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const multer  = require('multer');
+const fs =  require('fs');
+const path = require('path');
 const Voice = require('./voice.model');
 const PORT = 4000;
-const multer  = require('multer');
 
 const upload = multer({ dest: 'uploads/' })
 
@@ -32,7 +34,7 @@ voiceRoutes.route('/').get(function(req, res) {
     });
 });
 
-voiceRoutes.route('/add').post(upload.single('voice_file'),function(req, res) {
+voiceRoutes.route('/add').post(upload.single('voice_file'), function(req, res) {
     let voiceObject = {
         voice_title: req.body.voice_title,
         voice_description: req.body.voice_description,
@@ -42,15 +44,67 @@ voiceRoutes.route('/add').post(upload.single('voice_file'),function(req, res) {
 
     voice.save()
         .then(voice => {
-            res.status(200).json(voice);
+            res.json(req.body);
         })
         .catch(err => {
             res.status(400).send('adding new voice failed');
         });
 });
 
+voiceRoutes.route('/:id')
+.get(function(req, res) {
+    let id = req.params.id;
+    Voice.findById(id, function(err, voice) {
+        res.json(voice);
+    });
+})
+.post(function(req, res) {
+    Voice.findById(req.params.id, function(err, voice) {
+        if (!voice)
+            res.status(404).send("data is not found");
+        else
+            voice.voice_title = req.body.voice_title;
+            voice.voice_description = req.body.voice_description;
+            console.log(req);
+            res.json(req.body);
+            // voice.save().then(voice => {
+            //     res.json(voice);
+            // })
+            // .catch(err => {
+            //     res.status(400).send("Update not possible");
+            // });
+    });
+})
+.delete(function(req, res) {
+    let id = req.params.id;
+    Voice.findById(id, function(err, voice) {
+        if (fs.existsSync(voice.voice_audio)) {
+            fs.unlink(voice.voice_audio, (err) => {
+                if (err) throw err;
+                voice.remove(function (err) {
+                    if (err) return handleError(err);
+                    // deleted at most one tank document
+                    res.json(voice);
+                });
+            });
+        } else {
+            voice.remove(function (err) {
+                if (err) return handleError(err);
+                // deleted at most one tank document
+                res.json(voice);
+            });
+        }
+    });
+});
+
+
 app.use(express.static('build'));
 app.use('/uploads', express.static('uploads'));
+
+app.get('*', function (req, res) {
+    const index = path.join(__dirname, '../build', 'index.html');
+    res.sendFile(index);
+});
 
 app.listen(PORT, function() {
     console.log("Server is running on Port: " + PORT);

@@ -35,6 +35,14 @@ export default class VoicePlayer extends Component {
         }
     }
 
+    componentWillReceiveProps(newProps) {
+        if (newProps.visualPlayer) {
+            this.wavesurfer.load(newProps.audioUrl);
+        } else {
+            this.audio.load(newProps.audioUrl);
+        }
+    }
+
     playPause() {
         this.wavesurfer.playPause();
 
@@ -108,7 +116,11 @@ export default class VoicePlayer extends Component {
     }
     render() {
         if (this.state.audioError) {
-            return (<span> (Sin Audio) </span>);
+            return  (
+                <button type="button" disabled className="btn btn-outline-primary rounded-circle">
+                    <FontAwesomeIcon icon={faPlay} />
+                </button>
+            );
         }
 
         return this.props.visualPlayer ? this.renderVisualPlayer() : this.renderSimplePlayer();

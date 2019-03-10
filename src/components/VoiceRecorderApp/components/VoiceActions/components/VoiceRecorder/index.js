@@ -37,7 +37,7 @@ export default class VoiceRecorder extends Component {
             });
 
             this.mediaRecorder.addEventListener('stop', () => {
-                const audioBlob = new Blob(this.state.recordedChunks, {type: 'audio/mpeg-3'});
+                const audioBlob = new Blob(this.state.recordedChunks);
                 this.processRecord(audioBlob);
             });
 
@@ -66,7 +66,6 @@ export default class VoiceRecorder extends Component {
     }
 
     onRecordingStart = () => {
-
         this.setState({
             isRecording: true,
             timer: {

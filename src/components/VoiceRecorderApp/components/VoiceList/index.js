@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router'
-import VoicePlayer from '../VoicePlayer';
+import Axios from 'axios';
 
 import './styles.css';
+import VoiceListRow from './components/VoiceListRow';
 
 export default class VoiceList extends Component {
     constructor(props) {
@@ -15,13 +16,19 @@ export default class VoiceList extends Component {
         };
     }
 
-    componentDidMount() {
-        // setTimeout(() => {
-        //     this.setState({goToEdit:{
-        //         active: true,
-        //         voiceId: '2'
-        //     }})
-        // }, 10000);
+    editVoice(voice) {
+        this.setState({
+            goToEdit:{
+                active: true,
+                voiceId: voice._id
+            }
+        })
+    }
+
+    deleteVoice(voice) {
+        Axios.delete(`/voices/${voice._id}`).then(res => {
+            this.props.updateVoiceList();
+        });
     }
 
     render() {
@@ -33,14 +40,21 @@ export default class VoiceList extends Component {
         let listContent;
         if (this.props.voiceList.length > 0) {
             listContent = this.props.voiceList.map((e, k) => {
-                const audioUrl = new URL(e.voice_audio, window.location.href);
+                const audioUrl = new URL(e.voice_audio, window.location.origin);
                 return (
-                    <li className="list-group-item">
-                        <span>{e.voice_title}</span>
-                        <VoicePlayer audioUrl={audioUrl.toString()}/>
-                    </li>
+                    <VoiceListRow
+                        voice={e}
+                        audioUrl={audioUrl}
+                        deleteVoice={this.deleteVoice.bind(this)}
+                        editVoice={this.editVoice.bind(this)}/>
                 )
             });
+        } else {
+            listContent = (
+                <li className="list-group-item d-flex justify-content-between align-items-center">
+                    <span>No se tiene audios</span>
+                </li>
+            )
         }
 
         return (

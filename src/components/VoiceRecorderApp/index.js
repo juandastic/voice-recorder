@@ -15,17 +15,19 @@ export default class VoiceRecorderApp extends Component {
         };
     }
 
-    updateVoiceList(voice) {
-        const { voiceList } = this.state;
-        voiceList.push(voice);
+    updateVoiceList() {
+        this.getVoiceList();
     }
 
-    componentDidMount() {
+    getVoiceList () {
         Axios.get('/voices').then(res => {
             this.setState({
                 voiceList : res.data
             });
         });
+    }
+    componentDidMount() {
+        this.getVoiceList();
     }
 
     render() {
@@ -33,7 +35,9 @@ export default class VoiceRecorderApp extends Component {
             <div className="container site-content">
                 <div className="row">
                     <div className="col-md-6">
-                        <VoiceList voiceList={this.state.voiceList}/>
+                        <VoiceList
+                            updateVoiceList={this.updateVoiceList.bind(this)}
+                            voiceList={this.state.voiceList}/>
                     </div>
                     <div className="col-md-6">
                         <VoiceActions updateVoiceList={this.updateVoiceList.bind(this)}/>

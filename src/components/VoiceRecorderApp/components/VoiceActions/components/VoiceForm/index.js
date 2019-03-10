@@ -16,9 +16,28 @@ export default class VoiceForm extends Component {
         this.state = {
             voice_title: '',
             voice_description: '',
+            voice_audio: this.props.audioUrl,
             goToRercorder: {
                 active: false
             }
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.fillVoiceFields(nextProps);
+    }
+
+    componentDidMount() {
+        this.fillVoiceFields(this.props);
+    }
+
+    fillVoiceFields(props) {
+        if (props.voice && props.voice.hasOwnProperty('_id')) {
+            this.setState((state, props) => ({
+                voice_title: props.voice.voice_title,
+                voice_description: props.voice.voice_description,
+                voice_audio: props.audioUrl
+            }));
         }
     }
 
@@ -39,7 +58,7 @@ export default class VoiceForm extends Component {
         const audioObject = {
             voice_title: this.state.voice_title,
             voice_description: this.state.voice_description,
-            audioUrl: this.props.audioUrl
+            audioUrl: this.state.voice_audio
         }
 
         this.props.onSaveAudio(audioObject);
@@ -62,7 +81,7 @@ export default class VoiceForm extends Component {
 
         return (
             <form className="voice-form" onSubmit={this.onSubmit}>
-                <VoicePlayer visualPlayer={true} audioUrl={this.props.audioUrl}/>
+                <VoicePlayer visualPlayer={true} audioUrl={this.state.voice_audio}/>
                 <div className="form-group">
                     <label>Titulo: </label>
                     <input  type="text"

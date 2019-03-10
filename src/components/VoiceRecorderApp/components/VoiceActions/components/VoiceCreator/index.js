@@ -9,14 +9,22 @@ class VoiceCreator extends Component {
     constructor(props) {
         super(props);
 
-        this.audioURL = URL.createObjectURL(this.props.location.state.audio);
-        this.audioBlob = this.props.location.state.audio;
+        if (!this.props.location.state) {
+            this.state = {
+                goToRercorder: {
+                    active: true
+                }
+            };
+        } else {
+            this.audioURL = URL.createObjectURL(this.props.location.state.audio);
+            this.audioBlob = this.props.location.state.audio;
 
-        this.state = {
-            goToRercorder: {
-                active: false
-            }
-        };
+            this.state = {
+                goToRercorder: {
+                    active: false
+                }
+            };
+        }
     }
 
     onSaveAudio(data) {
@@ -25,21 +33,14 @@ class VoiceCreator extends Component {
         formObject.append('voice_title', data.voice_title);
         formObject.append('voice_description', data.voice_description);
 
-        Axios.post('/voices/add', formObject, {
-            headers: {
-                'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
-            }
-        })
-        .then(res => {
-            this.props.updateVoiceList(res.data);
+        Axios.post('/voices/add', formObject).then(res => {
+            this.props.updateVoiceList();
             this.setState({
                 goToRercorder: {
                     active: true
                 }
             });
         });
-
-        console.log('Save this with axios ', data);
     }
 
     render() {
