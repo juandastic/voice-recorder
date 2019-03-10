@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router'
+import { withRouter } from 'react-router-dom';
 import Axios from 'axios';
 
 import './styles.css';
 import VoiceListRow from './components/VoiceListRow';
 
-export default class VoiceList extends Component {
+class VoiceList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,6 +15,14 @@ export default class VoiceList extends Component {
                 voiceId: ''
             },
         };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            goToEdit:{
+                active: false,
+            }
+        })
     }
 
     editVoice(voice) {
@@ -68,3 +77,5 @@ export default class VoiceList extends Component {
         )
     }
 }
+
+export default withRouter(VoiceList);

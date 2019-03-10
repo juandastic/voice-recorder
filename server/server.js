@@ -65,14 +65,12 @@ voiceRoutes.route('/:id')
         else
             voice.voice_title = req.body.voice_title;
             voice.voice_description = req.body.voice_description;
-            console.log(req);
-            res.json(req.body);
-            // voice.save().then(voice => {
-            //     res.json(voice);
-            // })
-            // .catch(err => {
-            //     res.status(400).send("Update not possible");
-            // });
+            voice.save().then(voice => {
+                res.json(voice);
+            })
+            .catch(err => {
+                res.status(400).send("Update not possible");
+            });
     });
 })
 .delete(function(req, res) {
