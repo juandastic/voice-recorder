@@ -1,0 +1,23 @@
+version: "3"
+
+networks:
+  proxy:
+    external: true
+  internal:
+    external: false
+
+services:
+  mongodb:
+    networks:
+      - internal
+    labels:
+      - traefik.enable=false
+  server:
+    labels:
+      - traefik.backend=voice-recorder
+      - traefik.frontend.rule=Host:voice-recorder.gmz2.work
+      - traefik.docker.network=proxy
+      - traefik.port=3000
+    networks:
+      - internal
+      - proxy
