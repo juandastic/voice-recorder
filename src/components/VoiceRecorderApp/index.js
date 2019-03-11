@@ -19,13 +19,13 @@ export default class VoiceRecorderApp extends Component {
         this.getVoiceList();
     }
 
-    getVoiceList () {
-        Axios.get('/voices').then(res => {
-            this.setState({
-                voiceList : res.data
-            });
+    async getVoiceList () {
+        const result = await Axios.get('/voices');
+        this.setState({
+            voiceList : result.data
         });
     }
+
     componentDidMount() {
         this.getVoiceList();
     }

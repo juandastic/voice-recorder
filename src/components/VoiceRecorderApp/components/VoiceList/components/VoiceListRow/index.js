@@ -5,10 +5,6 @@ import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import VoicePlayer from '../../../VoicePlayer';
 
 export default class VoiceListRow extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     onEditVoice() {
         this.props.editVoice(this.props.voice);
     }

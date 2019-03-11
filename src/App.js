@@ -9,17 +9,17 @@ import Footer from './components/Footer';
 import VoiceRecorderApp from './components/VoiceRecorderApp';
 
 class App extends Component {
-  render() {
-    return (
-      <Router>
-        <div>
-          <Header/>
-          <VoiceRecorderApp/>
-          <Footer/>
-        </div>
-      </Router>
-    )
-  }
+    render() {
+        return (
+            <Router>
+                <div>
+                    <Header/>
+                    <VoiceRecorderApp/>
+                    <Footer/>
+                </div>
+            </Router>
+        )
+    }
 }
 
 export default App;

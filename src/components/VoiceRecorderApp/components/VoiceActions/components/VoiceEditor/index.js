@@ -26,29 +26,29 @@ class VoiceEditor extends Component {
         this.getVoiceInfo(this.props.match.params.id);
     }
 
-    getVoiceInfo(id) {
-        Axios.get(`/voices/${id}`).then(res => {
-            const audioUrl = new URL(res.data.voice_audio, window.location.origin);
-            this.setState({
-                voice: res.data,
-                audioUrl: audioUrl.toString()
-            });
+    async getVoiceInfo(id) {
+        const result = await Axios.get(`/voices/${id}`);
+        const audioUrl = new URL(result.data.voice_audio, window.location.origin);
+
+        this.setState({
+            voice: result.data,
+            audioUrl: audioUrl.toString()
         });
     }
 
-    onSaveAudio(data) {
+    async onSaveAudio(data) {
         let formObject = {
             'voice_title': data.voice_title,
             'voice_description': data.voice_description
         }
 
-        Axios.post(`/voices/${this.state.voice._id}`, formObject).then(res => {
-            this.props.updateVoiceList();
-            this.setState({
-                goToRercorder: {
-                    active: true
-                }
-            });
+        await Axios.post(`/voices/${this.state.voice._id}`, formObject);
+
+        this.props.updateVoiceList();
+        this.setState({
+            goToRercorder: {
+                active: true
+            }
         });
     }
 

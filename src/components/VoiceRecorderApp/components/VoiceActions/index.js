@@ -8,10 +8,6 @@ import VoiceCreator from './components/VoiceCreator';
 import VoiceEditor from './components/VoiceEditor';
 
 export default class VoiceActions extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div className="container">

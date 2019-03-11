@@ -14,11 +14,13 @@ const upload = multer({ dest: 'uploads/' })
 app.use(cors());
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://mongodb/voices', { useNewUrlParser: true });
+const mongoUrl = process.env.MONGODB_HOST || 'localhost:27017';
+
+mongoose.connect(`mongodb://${mongoUrl}/voices`, { useNewUrlParser: true });
 const connection = mongoose.connection;
 
 connection.once('open', function() {
-    console.log("MongoDB database connection established successfully");
+    console.log("MongoDB database connection established successfully on "+ mongoUrl);
 })
 
 const voiceRoutes = express.Router();
@@ -34,21 +36,22 @@ voiceRoutes.route('/').get(function(req, res) {
     });
 });
 
-voiceRoutes.route('/add').post(upload.single('voice_file'), function(req, res) {
+voiceRoutes.route('/add').post(upload.single('voice_file'), async function(req, res) {
     let voiceObject = {
         voice_title: req.body.voice_title,
         voice_description: req.body.voice_description,
-        voice_audio: req.file.path
+        voiceObject: ''
     };
-    let voice = new Voice(voiceObject);
 
-    voice.save()
-        .then(voice => {
-            res.json(req.body);
-        })
-        .catch(err => {
-            res.status(400).send('adding new voice failed');
-        });
+    if (req.file) {
+        voiceObject.voice_audio = req.file.path;
+    }
+
+    const voice = new Voice(voiceObject);
+    const result = await voice.save();
+
+    res.json(result);
+
 });
 
 voiceRoutes.route('/:id')
@@ -59,18 +62,14 @@ voiceRoutes.route('/:id')
     });
 })
 .post(function(req, res) {
-    Voice.findById(req.params.id, function(err, voice) {
+    Voice.findById(req.params.id, async function(err, voice) {
         if (!voice)
             res.status(404).send("data is not found");
         else
             voice.voice_title = req.body.voice_title;
             voice.voice_description = req.body.voice_description;
-            voice.save().then(voice => {
-                res.json(voice);
-            })
-            .catch(err => {
-                res.status(400).send("Update not possible");
-            });
+            const result = await voice.save();
+            res.json(result);
     });
 })
 .delete(function(req, res) {

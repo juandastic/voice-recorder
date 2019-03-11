@@ -27,19 +27,19 @@ class VoiceCreator extends Component {
         }
     }
 
-    onSaveAudio(data) {
+    async onSaveAudio(data) {
         let formObject = new FormData();
         formObject.append('voice_file', this.audioBlob, 'audio');
         formObject.append('voice_title', data.voice_title);
         formObject.append('voice_description', data.voice_description);
 
-        Axios.post('/voices/add', formObject).then(res => {
-            this.props.updateVoiceList();
-            this.setState({
-                goToRercorder: {
-                    active: true
-                }
-            });
+        await Axios.post('/voices/add', formObject);
+
+        this.props.updateVoiceList();
+        this.setState({
+            goToRercorder: {
+                active: true
+            }
         });
     }
 

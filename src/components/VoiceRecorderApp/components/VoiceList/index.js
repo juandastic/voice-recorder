@@ -34,10 +34,9 @@ class VoiceList extends Component {
         })
     }
 
-    deleteVoice(voice) {
-        Axios.delete(`/voices/${voice._id}`).then(res => {
-            this.props.updateVoiceList();
-        });
+    async deleteVoice(voice) {
+        await Axios.delete(`/voices/${voice._id}`);
+        this.props.updateVoiceList();
     }
 
     render() {

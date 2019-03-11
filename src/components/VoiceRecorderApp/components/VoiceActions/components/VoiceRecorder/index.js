@@ -25,27 +25,27 @@ export default class VoiceRecorder extends Component {
         };
     }
 
-    componentDidMount() {
-        navigator.mediaDevices.getUserMedia({ audio: true })
-        .then(stream => {
-            this.mediaRecorder = new window.MediaRecorder(stream);
+    async setUserMedia() {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
-            this.mediaRecorder.addEventListener('dataavailable', e => {
-                if (e.data.size > 0) {
-                    this.collectChunks(e.data);
-                }
-            });
+        this.mediaRecorder = new window.MediaRecorder(stream);
 
-            this.mediaRecorder.addEventListener('stop', () => {
-                const audioBlob = new Blob(this.state.recordedChunks);
-                this.processRecord(audioBlob);
-            });
-
-            this.setState({ isRecordingAllowed: true });
-        })
-        .catch(err => {
-            console.log(err.message);
+        this.mediaRecorder.addEventListener('dataavailable', e => {
+            if (e.data.size > 0) {
+                this.collectChunks(e.data);
+            }
         });
+
+        this.mediaRecorder.addEventListener('stop', () => {
+            const audioBlob = new Blob(this.state.recordedChunks);
+            this.processRecord(audioBlob);
+        });
+
+        this.setState({ isRecordingAllowed: true });
+    }
+
+    componentDidMount() {
+        this.setUserMedia();
     }
 
     collectChunks = (data) => {
