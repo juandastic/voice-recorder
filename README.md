@@ -5,7 +5,7 @@ This is a basic CRUD of audios that are recorded by the user directly on the bro
 Live Demo available on https://voice-recorder.gmz2.work/
 
 ### Runing the Project
-There are two ways to run this project: usign MongoDB and NodeJs on your environment or usign the docker container.
+There are two ways to run this project: using MongoDB and NodeJs on your environment or using the docker container.
 however you have to run `npm install` for the two alternatives
 
 #### Using your own machine
@@ -20,4 +20,4 @@ This will run the SPA build and after that the server
 - You need Docker installed
 - On the root folder run `docker-compose up`
 
-This will create two containers one with MongoDb and anotherone with the SPA and API server
+This will create two containers one with MongoDb and the another container with the SPA and API server
