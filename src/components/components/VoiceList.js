@@ -3,7 +3,7 @@ import { Redirect } from 'react-router'
 import { withRouter } from 'react-router-dom';
 import Axios from 'axios';
 
-import './styles.css';
+import './VoiceList.css';
 import VoiceListRow from './components/VoiceListRow';
 
 class VoiceList extends Component {

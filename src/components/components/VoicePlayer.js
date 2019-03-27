@@ -3,7 +3,7 @@ import WaveSurfer from 'wavesurfer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
 
-import './styles.css';
+import './VoicePlayer.css';
 
 export default class VoicePlayer extends Component {
     constructor(props) {

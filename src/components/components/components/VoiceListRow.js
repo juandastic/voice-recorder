@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-import VoicePlayer from '../../../VoicePlayer';
+import VoicePlayer from '../VoicePlayer';
 
 export default class VoiceListRow extends Component {
     onEditVoice() {

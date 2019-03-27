@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router'
 
-import './styles.css';
+import './VoiceRecorder.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone, faStop } from '@fortawesome/free-solid-svg-icons';

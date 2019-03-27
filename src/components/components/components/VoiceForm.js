@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router'
 
-import './styles.css';
-import VoicePlayer from '../../../VoicePlayer';
+import './VoiceForm.css';
+import VoicePlayer from '../VoicePlayer';
 
 export default class VoiceForm extends Component {
     constructor(props) {

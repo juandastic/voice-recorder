@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom';
 
-import './styles.css';
+import './VoiceActions.css';
 
 import VoiceRecorder from './components/VoiceRecorder';
 import VoiceCreator from './components/VoiceCreator';

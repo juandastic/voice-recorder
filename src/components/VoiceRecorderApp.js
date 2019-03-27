@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Axios from 'axios';
 
-import './styles.css';
+import './VoiceRecorderApp.css';
 
 import VoiceList from './components/VoiceList';
 import VoiceActions from './components/VoiceActions';

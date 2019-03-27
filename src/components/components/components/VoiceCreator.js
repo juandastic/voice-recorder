@@ -3,7 +3,7 @@ import { Redirect } from 'react-router'
 import { withRouter } from 'react-router-dom';
 import Axios from 'axios';
 
-import VoiceForm from '../VoiceForm';
+import VoiceForm from './VoiceForm';
 
 class VoiceCreator extends Component {
     constructor(props) {
