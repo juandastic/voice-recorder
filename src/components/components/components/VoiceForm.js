@@ -8,11 +8,6 @@ export default class VoiceForm extends Component {
     constructor(props) {
         super(props);
 
-        this.onChangeVoiceTitle = this.onChangeVoiceTitle.bind(this);
-        this.onChangeVoiceDescription = this.onChangeVoiceDescription.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-        this.onCancel = this.onCancel.bind(this);
-
         this.state = {
             voice_title: '',
             voice_description: '',
@@ -21,10 +16,6 @@ export default class VoiceForm extends Component {
                 active: false
             }
         }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        this.fillVoiceFields(nextProps);
     }
 
     componentDidMount() {
@@ -41,19 +32,19 @@ export default class VoiceForm extends Component {
         }
     }
 
-    onChangeVoiceTitle(e) {
+    onChangeVoiceTitle = (e) => {
         this.setState({
             voice_title: e.target.value
         });
     }
 
-    onChangeVoiceDescription(e) {
+    onChangeVoiceDescription = (e) => {
         this.setState({
             voice_description: e.target.value
         });
     }
 
-    onSubmit(e) {
+    onSubmit = (e) => {
         e.preventDefault();
         const audioObject = {
             voice_title: this.state.voice_title,
@@ -64,7 +55,7 @@ export default class VoiceForm extends Component {
         this.props.onSaveAudio(audioObject);
     }
 
-    onCancel() {
+    onCancel = () => {
         this.setState({
             goToRercorder: {
                 active: true

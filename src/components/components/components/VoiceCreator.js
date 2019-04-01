@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router'
-import { withRouter } from 'react-router-dom';
-import Axios from 'axios';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import  * as actions from '../../../redux/actions';
 
 import VoiceForm from './VoiceForm';
 
@@ -27,15 +29,13 @@ class VoiceCreator extends Component {
         }
     }
 
-    async onSaveAudio(data) {
+    onSaveAudio = async (data) => {
         let formObject = new FormData();
         formObject.append('voice_file', this.audioBlob, 'audio');
         formObject.append('voice_title', data.voice_title);
         formObject.append('voice_description', data.voice_description);
 
-        await Axios.post('/voices/add', formObject);
-
-        this.props.updateVoiceList();
+        this.props.actions.addVoice(formObject);
         this.setState({
             goToRercorder: {
                 active: true
@@ -54,11 +54,17 @@ class VoiceCreator extends Component {
             <div className="voice-recorder">
                 <h2 className="title-section">Guarda tu grabación</h2>
                 <VoiceForm
-                    onSaveAudio={this.onSaveAudio.bind(this)}
+                    onSaveAudio={this.onSaveAudio}
                     audioUrl={this.audioURL} />
             </div>
         )
     }
 }
 
-export default withRouter(VoiceCreator);
+function mapDispatchToProps(dispatch) {
+    return {
+      actions: bindActionCreators(actions, dispatch)
+    }
+}
+
+export default connect(null, mapDispatchToProps)(VoiceCreator);

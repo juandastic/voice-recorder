@@ -12,11 +12,11 @@ class App extends Component {
     render() {
         return (
             <Router>
-                <div>
-                    <Header/>
-                    <VoiceRecorderApp/>
-                    <Footer/>
-                </div>
+                <React.Fragment>
+                    <Header />
+                    <VoiceRecorderApp />
+                    <Footer />
+                </React.Fragment>
             </Router>
         )
     }

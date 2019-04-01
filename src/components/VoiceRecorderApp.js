@@ -1,33 +1,18 @@
 import React, { Component } from 'react'
-import Axios from 'axios';
+import { withRouter } from 'react-router-dom';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import  * as actions from '../redux/actions';
 
 import './VoiceRecorderApp.css';
 
 import VoiceList from './components/VoiceList';
 import VoiceActions from './components/VoiceActions';
 
-export default class VoiceRecorderApp extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            voiceList: []
-        };
-    }
-
-    updateVoiceList() {
-        this.getVoiceList();
-    }
-
-    async getVoiceList () {
-        const result = await Axios.get('/voices');
-        this.setState({
-            voiceList : result.data
-        });
-    }
-
-    componentDidMount() {
-        this.getVoiceList();
+class VoiceRecorderApp extends Component {
+    componentDidMount = () => {
+        this.props.actions.fetchVoices();
     }
 
     render() {
@@ -35,15 +20,31 @@ export default class VoiceRecorderApp extends Component {
             <div className="container site-content">
                 <div className="row">
                     <div className="col-md-6">
-                        <VoiceList
-                            updateVoiceList={this.updateVoiceList.bind(this)}
-                            voiceList={this.state.voiceList}/>
+                        <VoiceList voiceList={this.props.voiceList} />
                     </div>
                     <div className="col-md-6">
-                        <VoiceActions updateVoiceList={this.updateVoiceList.bind(this)}/>
+                        <VoiceActions />
                     </div>
                 </div>
             </div>
         )
     }
 }
+
+function mapStateToProps(state, props) {
+  const voices = state.data.result.map(
+    (id) => state.data.entities.voices[id]
+  );
+
+  return {
+    voiceList: voices
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(VoiceRecorderApp));
