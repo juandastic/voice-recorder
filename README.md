@@ -1,6 +1,6 @@
 ## Voice Recorder
 
-This is a basic CRUD of audios that are recorded by the user directly on the browser.
+This is a basic CRUD of audios that are recorded by the user directly on the browser
 
 Live Demo available on https://voice-recorder.gmz2.work/
 
