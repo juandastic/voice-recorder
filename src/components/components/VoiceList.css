@@ -1,0 +1,9 @@
+.list-group {
+    height: 400px;
+    overflow: auto;
+    margin-bottom: 30px;
+}
+
+.list-actions {
+    width: 150px;
+}
