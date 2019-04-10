@@ -8,6 +8,11 @@ services:
     build: ./
     environment:
       MONGODB_HOST: mongodb
+<<<<<<< HEAD
+=======
+    ports:
+      - "3000:3000"
+>>>>>>> 1b95d242d6bd30302e9edc92353257a410cc88d2
     volumes:
       - ./:/usr/src/app
     depends_on:
