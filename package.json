@@ -29,13 +29,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-<<<<<<< HEAD
     "eject": "react-scripts eject",
     "container:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d",
     "container:server": "docker-compose -f docker-compose.yml -f docker-compose.gmz2.yml up -d"
-=======
-    "eject": "react-scripts eject"
->>>>>>> 1b95d242d6bd30302e9edc92353257a410cc88d2
   },
   "eslintConfig": {
     "extends": "react-app"
